@@ -1,15 +1,17 @@
 @extends('layouts.app')
 @section('title',"Add ".ucfirst(config('settings.document_label_singular')))
-@section('content')
-    <section class="content-header">
-        <h1>
-            {{ucfirst(config('settings.document_label_singular'))}}
-        </h1>
-    </section>
-    <div class="content">
-        <div class="box box-primary">
+@section('content_header')
+    <h1>
+        {{ucfirst(config('settings.document_label_singular'))}}
+    </h1>
+@stop
 
-            <div class="box-body">
+@section('content')
+
+    <div class="content">
+        <div class="card card-primary">
+
+            <div class="card-body">
                 <div class="row">
                     {!! Form::open(['route' => 'documents.store']) !!}
                         @include('documents.fields',['document'=>null])

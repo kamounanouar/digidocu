@@ -19,8 +19,8 @@
         @include('flash::message')
 
         <div class="clearfix"></div>
-        <div class="box box-primary">
-            <div class="box-body">
+        <div class="card card-primary">
+            <div class="card-body">
                 @include('tags.table')
             </div>
         </div>
@@ -29,4 +29,3 @@
         </div>
     </div>
 @endsection
-

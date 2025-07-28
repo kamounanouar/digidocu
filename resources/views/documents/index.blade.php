@@ -89,6 +89,7 @@
                             data-target="#filterForm"><i class="fa fa-filter"></i> Filter
                     </button>
                 </div>
+                <form class="form-inline visible-xs collapse" id="filterForm">
                 {!! Form::model(request()->all(), ['method'=>'get','class'=>'form-inline visible hidden-xs','id'=>'filterForm']) !!}
                 <div class="form-group">
                     <label for="search" class="sr-only">Search</label>
@@ -111,7 +112,7 @@
                     {!! Form::select('status',['0'=>"ALL",config('constants.STATUS.PENDING')=>config('constants.STATUS.PENDING'),config('constants.STATUS.APPROVED')=>config('constants.STATUS.APPROVED'),config('constants.STATUS.REJECT')=>config('constants.STATUS.REJECT')],null,['class'=>'form-control input-sm']) !!}
                 </div>
                 <button type="submit" class="btn btn-default btn-sm"><i class="fa fa-filter"></i> Filter</button>
-                {!! Form::close() !!}
+    </form>
             </div>
             <div class="box-body">
                 <div class="row">

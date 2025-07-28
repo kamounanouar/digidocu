@@ -15,6 +15,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Spatie\Html\Elements\Form;
 use ZipArchive;
 
 class HomeController extends AppBaseController

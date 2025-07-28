@@ -1,5 +1,10 @@
-@extends('layouts.app')
+@extends('adminlte::page')
 @section('title','Home')
+
+@section('content_header')
+    <h1>Dashboard</h1>
+@stop
+
 @section('scripts')
     <script>
         function gotoUpload() {
@@ -37,28 +42,23 @@
         });
     </script>
 @stop
+
 @section('content')
-    <section class="content-header">
-        <h1 class="pull-left">Dashboard</h1>
-    </section>
-    <section class="content" style="margin-top: 20px;">
-        <div class="clearfix"></div>
-        <div class="clearfix"></div>
         <div class="row">
             <div class="col-md-8">
-                <div class="box box-default">
-                    <div class="box-header no-border text-center">
-                        <h3 class="box-title">Quick Upload</h3>
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h3 class="card-title">Quick Upload</h3>
 
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                        <div class="card-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-card-widget="collapse"><i
                                     class="fa fa-minus"></i>
                             </button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                            <button type="button" class="btn btn-box-tool" data-card-widget="remove"><i
                                     class="fa fa-times"></i></button>
                         </div>
                     </div>
-                    <div class="box-body">
+                    <div class="card-body">
                         <form action="#" class="text-center" style="width: 30vw;margin: 0 auto;" onsubmit="return gotoUpload()">
                             <div class="form-group">
                                 <label for="">Choose {{ucfirst(config('settings.document_label_singular'))}}</label>
@@ -111,14 +111,17 @@
                         <h3 class="box-title">Activity</h3>
 
                         <div class="box-tools pull-right">
-                            {!! Form::open(['method' => 'get','style'=>'display:inline;']) !!}
-                                {!! Form::hidden('activity_range', '', ['id' => 'activity_range']) !!}
+                            {!! html()->form('get') !!}
+                                <input type="hidden" name="activity_range" id="activity_range" />
                                 <button type="button" id="activityrange" class="btn btn-default btn-sm">
                                     <i class="fa fa-calendar"></i>&nbsp;
                                     <span>Choose dates</span> <i class="fa fa-caret-down"></i>
                                 </button>
-                                {!! Form::button('<i class="fa fa-filter"></i>&nbsp;Filter', ['class' => 'btn btn-default btn-sm','type'=>'submit']) !!}
-                            {!! Form::close() !!}
+                                <button type="submit" class="btn btn-default btn-sm">
+                                <i class="fa fa-filter"></i>&nbsp;Filter
+                                </button>
+                                {!! html()->form()->close() !!}
+                            
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                                     class="fa fa-minus"></i>
                             </button>
@@ -158,5 +161,4 @@
                 </div>
             </div>
         </div>
-    </section>
 @endsection
