@@ -2,7 +2,12 @@
     <script id="permission-row" type="text/x-handlebars-template">
         <tr>
             <td>
-                {!! Form::select('tag_permissions[@{{index}}][tag_id]', $tags , null , ['class' => 'form-control input-sm']) !!}
+                <select class="form-control input-sm" name="tag_permissions[@{{index}}][tag_id]" required>
+                    <option value="">Select {{ucfirst(config('settings.tags_label_singular'))}}</option>
+                    @foreach($tags as $tag)
+                        <option value="{{$tag->id}}">{{$tag->name}}</option>
+                    @endforeach
+                </select>
             </td>
             @foreach (config('constants.TAG_LEVEL_PERMISSIONS')  as $perm)
                 <td><label>
@@ -57,53 +62,70 @@
         <div class="row">
             <!-- Name Field -->
             <div class="form-group col-sm-6 {{ $errors->has('name') ? 'has-error' :'' }}">
-                {!! Form::label('name', 'Name:') !!}
-                {!! Form::text('name', null, ['class' => 'form-control']) !!}
+                <label class="control-label">Name</label>
+                <input type="text" name="name" class="form-control" value="{{ old('name', optional($user ?? null)->name) }}" required>
                 {!! $errors->first('name','<span class="help-block">:message</span>') !!}
             </div>
 
-
             <!-- Email Field -->
             <div class="form-group col-sm-6 {{ $errors->has('email') ? 'has-error' :'' }}">
-                {!! Form::label('email', 'Email:') !!}
-                {!! Form::email('email', null, ['class' => 'form-control']) !!}
+                <label for="email">Email</label>
+                <input type="email" name="email" class="form-control" value="{{ old('email', optional($user ?? null)->email) }}" required>
                 {!! $errors->first('email','<span class="help-block">:message</span>') !!}
             </div>
 
-
             <!-- Username Field -->
             <div class="form-group col-sm-6 {{ $errors->has('username') ? 'has-error' :'' }}">
-                {!! Form::label('username', 'Username:') !!}
-                {!! Form::text('username', null, ['class' => 'form-control']) !!}
+                <label for="username">Username</label>
+                <input type="text" name="username" class="form-control" value="{{ old('username', optional($user ?? null)->username) }}" required>
                 {!! $errors->first('username','<span class="help-block">:message</span>') !!}
             </div>
 
 
             <!-- Address Field -->
             <div class="form-group col-sm-6 {{ $errors->has('address') ? 'has-error' :'' }}">
-                {!! Form::label('address', 'Address:') !!}
-                {!! Form::text('address', null, ['class' => 'form-control']) !!}
+                <label for="address">Address</label>
+                <input type="text" name="address" class="form-control" value="{{ old('address', optional($user ?? null)->address) }}">
                 {!! $errors->first('address','<span class="help-block">:message</span>') !!}
             </div>
 
             <!-- Password Field -->
             <div class="form-group col-sm-6 {{ $errors->has('password') ? 'has-error' :'' }}">
-                {!! Form::label('password', 'Password:') !!}
-                {!! Form::text('password', null, ['class' => 'form-control']) !!}
+                <label>
+                    Password
+                    <span class="text-muted">(Leave blank if you don't want to change)</span>
+                </label>
+                <!-- Password Field --> 
+                {{-- If user is being created, show password field --}}
+                {{-- If user is being edited, show password field with a note --}}
+                <input type="password" name="password" class="form-control" value="{{ old('password') }}" {{ isset($user) ? '' : 'required' }}>
                 {!! $errors->first('password','<span class="help-block">:message</span>') !!}
             </div>
 
             {{--Status Filed--}}
             <div class="form-group col-sm-6 {{ $errors->has('status') ? 'has-error' :'' }}">
-                {!! Form::label('status', 'Status:') !!}
-                {!! Form::select('status', [config('constants.STATUS.ACTIVE') => config('constants.STATUS.ACTIVE'), config('constants.STATUS.BLOCK') => config('constants.STATUS.BLOCK')],null, ['class'=>'form-control']); !!}
-                {!! $errors->first('status','<span class="help-block">:message</span>') !!}
+            {{-- Status Field --}}
+            <label for="">Status</label>
+            <select name="status" id="status">
+                <option value="">{{ __('Select Status') }}</option>
+                <option value="{{ config('constants.STATUS.ACTIVE') }}" {{ old('status', optional($user ?? null)->status) == config('constants.STATUS.ACTIVE') ? 'selected' : '' }}>
+                    {{ config('constants.STATUS.ACTIVE') }}
+                </option>
+                <option value="{{ config('constants.STATUS.BLOCK') }}" {{ old('status', optional($user ?? null)->status) == config('constants.STATUS.BLOCK') ? 'selected' : '' }}>
+                    {{ config('constants.STATUS.BLOCK') }}
+                </option>
+            </select>
+               {!! $errors->first('status','<span class="help-block">:message</span>') !!}
             </div>
 
             <!-- Description Field -->
             <div class="form-group col-sm-12 col-lg-12 {{ $errors->has('description') ? 'has-error' :'' }}">
-                {!! Form::label('description', 'Description(Additional Information):') !!}
-                {!! Form::textarea('description', null, ['class' => 'form-control b-wysihtml5-editor']) !!}
+                <label for="description">Description</label>
+                {{-- Use a WYSIWYG editor for the description field --}}
+                {{-- This allows for rich text formatting --}}
+                {{-- Use the 'b-wysihtml5-editor' class for the WYSIWYG editor --}}
+                {{-- The 'b-wysihtml5-editor' class is used to initialize the WYSIWYG editor --}}
+                <textarea name="description" id="description" class="form-control b-wysihtml5-editor"></textarea>
                 {!! $errors->first('description','<span class="help-block">:message</span>') !!}
             </div>
         </div>
@@ -123,7 +145,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label class="control-label">User</label><br>
                             @foreach(config('constants.GLOBAL_PERMISSIONS.USERS') as $permission_name=>$permission_label)
                                 <div class="form-group">
@@ -135,7 +157,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label class="control-label">{{ucfirst(config('settings.tags_label_plural'))}}</label><br>
                             @foreach(config('constants.GLOBAL_PERMISSIONS.TAGS') as $permission_name=>$permission_label)
                                 <div class="form-group">
@@ -147,7 +169,19 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
+                            <label class="control-label">{{ucfirst(config('settings.prestations_label_plural'))}}</label><br>
+                            @foreach(config('constants.GLOBAL_PERMISSIONS.PRESTATIONS') as $permission_name=>$permission_label)
+                                <div class="form-group">
+                                    <label>
+                                        <input name="global_permissions[]" type="checkbox" class="iCheck-helper"
+                                               value="{{$permission_name}}" {{optional($user ?? null)->can($permission_name)?'checked':''}}>
+                                        &nbsp;{{ucfirst($permission_label)}} {{ucfirst(config('settings.prestations_label_plural'))}}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="col-sm-3">
                             <label
                                 class="control-label">{{ucfirst(config('settings.document_label_plural'))}}</label><br>
                             @foreach(config('constants.GLOBAL_PERMISSIONS.DOCUMENTS') as $permission_name=>$permission_label)
@@ -204,6 +238,6 @@
 @endcan
 <!-- Submit Field -->
 <div class="form-group">
-    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+    <button type="submit" class="btn btn-primary">Save</button>
     <a href="{!! route('users.index') !!}" class="btn btn-default">Cancel</a>
 </div>

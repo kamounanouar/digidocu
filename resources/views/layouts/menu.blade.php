@@ -18,6 +18,37 @@
                 class="fa fa-file"></i><span>{{ucfirst(config('settings.document_label_plural'))}}</span></a>
     </li>
 @endcan
+@can('read prestations',\App\Prestation::class)
+    <li class="{{ Request::is('admin/prestations*') ? 'active' : '' }}">
+        <a href="{!! route('prestations.pivot') !!}"><i
+                class="fa fa-cube"></i><span>{{ucfirst(config('settings.prestations_label_plural'))}}</span></a>
+    </li>
+@endcan
+@can('read quality',\App\QualityCheck::class)
+    <li class="treeview {{ Request::is('admin/quality*') ? 'active' : '' }}">
+        <a href="#">
+            <i class="fa fa-info-circle"></i>
+            <span>Quality</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="{{ Request::is('admin/qualities*') ? 'active' : '' }}">
+            <a href="{!! route('qualities.index') !!}"><i
+                class="fa fa-cube"></i><span>Quality index</span></a>
+            </li>
+            <li class="{{ Request::is('admin/qualities*') ? 'active' : '' }}">
+            <a href="{!! route('qualities.index') !!}"><i
+                class="fa fa-cube"></i><span>Quality type</span></a>
+            </li>
+            <li class="{{ Request::is('admin/qualities*') ? 'active' : '' }}">
+            <a href="{!! route('qualities.index') !!}"><i
+                class="fa fa-cube"></i><span>New Quality Log</span></a>
+            </li>
+        </ul>
+    </li>
+@endcan
 @if(auth()->user()->is_super_admin)
     <li class="treeview {{ Request::is('admin/advanced*') ? 'active' : '' }}">
         <a href="#">
@@ -28,6 +59,9 @@
             </span>
         </a>
         <ul class="treeview-menu">
+            <li class="{{ Request::is('admin/advanced/types*') ? 'active' : '' }}">
+                <a href="{!! route('prestations.types') !!}"><i class="fa fa-cube"></i><span>Prestation Types</span></a>
+            </li>
             <li class="{{ Request::is('admin/advanced/settings*') ? 'active' : '' }}">
                 <a href="{!! route('settings.index') !!}"><i class="fa fa-gear"></i><span>Settings</span></a>
             </li>

@@ -12,7 +12,7 @@ class SettingsTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Setting::create(['name'=>'system_title','value'=>'Digi Docu']);
+        \App\Setting::create(['name'=>'system_title','value'=>'SIAB PLC']);
         \App\Setting::create(['name'=>'system_logo','value'=>'logo.png']);
 
         \App\Setting::create(['name'=>'tags_label_singular','value'=>'tag']);
@@ -20,6 +20,9 @@ class SettingsTableSeeder extends Seeder
 
         \App\Setting::create(['name'=>'document_label_singular','value'=>'document']);
         \App\Setting::create(['name'=>'document_label_plural','value'=>'documents']);
+
+        \App\Setting::create(['name'=>'prestation_label_singular','value'=>'prestation']);
+        \App\Setting::create(['name'=>'prestation_label_plural','value'=>'prestations']);
 
         \App\Setting::create(['name'=>'file_label_singular','value'=>'file']);
         \App\Setting::create(['name'=>'file_label_plural','value'=>'files']);

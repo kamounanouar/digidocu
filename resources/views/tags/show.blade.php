@@ -5,21 +5,21 @@
         <h1>
             {{ucfirst(config('settings.tags_label_singular'))}}
             <span class="pull-right">
-            <a href="{{ route('tags.index') }}" class="btn btn-default">
-                <i class="fa fa-chevron-left" aria-hidden="true"></i> Back
-            </a>
-            <a href="{{ route('tags.edit',$tag->id) }}" class="btn btn-primary">
-                <i class="fa fa-edit" aria-hidden="true"></i> Edit
-            </a>
-            {!! Form::open(['route' => ['tags.destroy', $tag->id], 'method' => 'delete','style'=>'display:inline']) !!}
-                {!! Form::button('<i class="fa fa-trash"></i> Delete', [
-                'type' => 'submit',
-                'title' => 'Delete',
-                'class' => 'btn btn-danger',
-                'onclick' => "return conformDel(this,event)",
-                ]) !!}
-                {!! Form::close() !!}
-        </span>
+                <a href="{{ route('tags.index') }}" class="btn btn-default">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i> Back
+                </a>
+                <a href="{{ route('tags.edit',$tag->id) }}" class="btn btn-primary">
+                    <i class="fa fa-edit" aria-hidden="true"></i> Edit
+                </a>
+                {!! Form::open(['route' => ['tags.destroy', $tag->id], 'method' => 'delete','style'=>'display:inline']) !!}
+                    {!! Form::button('<i class="fa fa-trash"></i> Delete', [
+                    'type' => 'submit',
+                    'title' => 'Delete',
+                    'class' => 'btn btn-danger',
+                    'onclick' => "return conformDel(this,event)",
+                    ]) !!}
+                    {!! Form::close() !!}
+            </span>
         </h1>
     </section>
     <div class="content">

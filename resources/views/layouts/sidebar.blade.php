@@ -6,8 +6,10 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{asset(config('settings.system_logo'))}}" class="img-circle"
-                     alt="User Image"/>
+                <div data-widget="logo-ups" class="user-image">
+                    <x-logo-ups class="img-circle" alt="User Image" width="20" height="20"/>
+                </div>
+                
             </div>
             <div class="pull-left info">
                 @if (Auth::guest())

@@ -142,8 +142,11 @@ class DocumentRepository extends BaseRepository
                 $allFiles = $document->files->where('file_type_id', $fileType->id);
                 if ($allFiles->count() <= $count) {
                     for ($i = $allFiles->count(); $i < $count; $i++) {
-                        $labels = explode(",", $fileType->labels)[$i];
-                        $missigDocMsgs[] = $fileType->name . " " . $labels;
+                        //$labels = explode(",", $fileType->labels)[$i];
+                        $labelsArray = explode(",", $fileType->labels);
+                        $label = $labelsArray[$i] ?? 'inconnu';
+                        //$missigDocMsgs[] = $fileType->name . " " . $label;
+                        //$missigDocMsgs[] = $fileType->name . " " . $labels;
                     }
                 }
             }

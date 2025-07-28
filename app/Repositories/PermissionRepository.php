@@ -90,6 +90,29 @@ class PermissionRepository extends BaseRepository
         return $retPermissions;
     }
 
+    /**
+     * Get global permission user wise for given document.
+     * @param Document $document
+     * @return array
+     */
+    public function getGlobalPermissionsForPres($document)
+    {
+        $users = User::permission(array_keys(config('constants.GLOBAL_PERMISSIONS.PRESTATIONS')))->get();
+        $retPermissions = [];
+        foreach ($users as $user) {
+            $retPermissions[] = [
+                'user'=>$user,
+                'permissions'=>[]
+            ];
+            foreach (config('constants.GLOBAL_PERMISSIONS.PRESTATIONS') as $key=>$item) {
+                if($user->can($key)){
+                    $retPermissions[count($retPermissions)-1]['permissions'][] = $item;
+                }
+            }
+        }
+        return $retPermissions;
+    }
+
     public function getUserWisePermissionsByTag($tag)
     {
         $tagWisePermList = [];

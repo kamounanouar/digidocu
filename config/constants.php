@@ -21,6 +21,12 @@ return [
             'update tags' => 'update',
             'delete tags' => 'delete',
         ],
+        'PRESTATIONS' => [
+            'create prestations' => 'create',
+            'read prestations' => 'read',
+            'update prestations' => 'update',
+            'delete prestations' => 'delete',
+        ],
         'DOCUMENTS' => [
             'create documents' => 'create',
             'read documents' => 'read',
@@ -41,5 +47,11 @@ return [
         'update document ' => 'update',
         'delete document ' => 'delete',
         'verify document ' => 'verify',
+    ],
+    'PRESTATIONS_LEVEL_PERMISSIONS' => [
+        'read prestation ' => 'read',
+        'update prestation ' => 'update',
+        'delete prestation ' => 'delete',
+        'verify prestation ' => 'verify',
     ]
 ];

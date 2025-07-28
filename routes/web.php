@@ -18,8 +18,28 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PrestationController;
+use App\Http\Controllers\ImportController;
+
+
+
+
+
+use App\Http\Controllers\QualityTypeController;
+use App\Http\Controllers\QualityController;
+use App\Http\Controllers\QualityLogController;
+
 
 Route::get('/', [HomeController::class,'welcome'])->name('home');
+
+Route::get('/check-limits', function() {
+    return [
+        'upload_max_filesize' => ini_get('upload_max_filesize'),
+        'post_max_size' => ini_get('post_max_size'),
+        'memory_limit' => ini_get('memory_limit')
+    ];
+});
+
 
 Route::get('config', function () {
     Artisan::call('route:clear');
@@ -31,14 +51,56 @@ Route::get('config', function () {
 
 Auth::routes();
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth','check_block']], function () {
-    Route::get('/home', [HomeController::class,'index'])->name('admin.dashboard');
-    Route::match(['get','post'],'/profile', [HomeController::class,'profile'])->name('profile.manage');
-    Route::group(['prefix' => 'advanced'], function () {
-        Route::resource('settings', SettingController::class);
-        Route::resource('custom-fields', CustomFieldController::class, ['names' => 'customFields']);
-        Route::resource('file-types', FileTypeController::class, ['names' => 'fileTypes']);
-    });
+    Route::group(['prefix' => 'admin', 'middleware' => ['auth','check_block']], function () {
+        Route::get('/home', [HomeController::class,'index'])->name('admin.dashboard');
+        Route::match(['get','post'],'/profile', [HomeController::class,'profile'])->name('profile.manage');
+        Route::group(['prefix' => 'advanced'], function () {
+            Route::resource('settings', SettingController::class);
+            Route::resource('custom-fields', CustomFieldController::class, ['names' => 'customFields']);
+            Route::resource('file-types', FileTypeController::class, ['names' => 'fileTypes']);
+        });
+
+        
+        Route::resource('qualities', QualityController::class);
+
+
+        
+
+
+        /* ********* */
+
+        
+        Route::get('/prestations/journalier', [PrestationController::class, 'dailyForm'])->name('prestations.daily.form');
+        Route::post('/prestations/journalier', [PrestationController::class, 'dailyStore'])->name('prestations.daily.store');
+        //Route::get('/prestations/journal', [PrestationController::class, 'journal'])->name('prestations.journal');
+        Route::get('/prestations/journal', [PrestationController::class, 'pivotJournal'])->name('prestations.pivot');
+
+
+        Route::get('/prestations/log', [PrestationController::class, 'logForm'])->name('prestations.log.form');
+        Route::post('/prestations/log', [PrestationController::class, 'saveLog'])->name('prestations.log.store');
+        Route::get('/prestations/types', [PrestationController::class, 'types'])->name('prestations.types');
+        Route::get('/prestations', [PrestationController::class, 'pivotJournal'])->name('prestations.pivot'); 
+        //Route::get('/prestations', [PrestationController::class, 'index'])->name('prestations.datatable');
+        
+        Route::post('/prestations/store', [PrestationController::class, 'store'])->name('prestations.store');
+        Route::post('/prestations', [PrestationController::class, 'show'])->name('prestations.show');
+        Route::get('/prestations/create', [PrestationController::class, 'create'])->name('prestations.create');
+        Route::get('/prestations/{id}/edit', [PrestationController::class, 'edit'])->name('prestations.edit');
+        Route::put('/prestations/{id}', [PrestationController::class, 'update'])->name('prestations.update');
+        Route::delete('/prestations/{id}', [PrestationController::class, 'destroy'])->name('prestations.destroy');
+
+     
+
+
+
+        Route::get('/import', [ImportController::class, 'showImportForm'])->name('import.form');
+        Route::post('/import/preview', [ImportController::class, 'previewImport'])->name('import.preview');
+        Route::post('/import/execute', [ImportController::class, 'executeImport'])->name('import.execute');  
+
+
+    /* ********* */
+    
+    
     Route::resource('users', UserController::class);
     Route::get('/users-block/{user}',[UserController::class,'blockUnblock'])->name('users.blockUnblock');
     Route::resource('tags', TagController::class);
